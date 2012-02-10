@@ -1,6 +1,6 @@
 # SortableChallenge
 
-A implementation to solve the coding challenge posted by Sortable. It's made with funzies and little giggles :) oh.... and Scala :)
+A implementation to solve the coding challenge posted by [Sortable](http://sortable.com/blog/coding-challenge/). It's made with funzies and little giggles! oh.... and Scala :)
 
 ## How to run it
  1. Clone the repo (or download and extract it). 
@@ -8,6 +8,7 @@ A implementation to solve the coding challenge posted by Sortable. It's made wit
  3. type: `sbt run`
 
 There should now be three new files in your dir:
+
 * result_with_threshold_0.0111.txt
 * highRecall_with_threshold_0.txt
 * highPrecision_with_threshold_0.02.txt
