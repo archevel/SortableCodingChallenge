@@ -8,9 +8,9 @@ A implementation to solve the coding challenge posted by Sortable. It's made wit
  3. type: `sbt run`
 
 There should now be three new files in your dir:
- * result_with_threshold_0.0111.txt
- * highRecall_with_threshold_0.txt
- * highPrecision_with_threshold_0.02.txt
+* result_with_threshold_0.0111.txt
+* highRecall_with_threshold_0.txt
+* highPrecision_with_threshold_0.02.txt
 
 Using `sbt "run 0.015"` or similar you can run the code with an alternate threshold for what 
 is written to the result file (highRecall and highPrecision files will still get generated)
