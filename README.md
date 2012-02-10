@@ -5,7 +5,8 @@ A implementation to solve the coding challenge posted by [Sortable](http://sorta
 ## How to run it
  1. Clone the repo (or download and extract it). 
  2. go into project dir
- 3. type: `sbt run`
+ 3. type: `chmod u+x ./sbt`
+ 4. type: `./sbt run`
 
 There should now be three new files in your dir:
 
