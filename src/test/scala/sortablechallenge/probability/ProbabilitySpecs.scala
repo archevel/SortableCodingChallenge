@@ -143,16 +143,39 @@ class MessageCategoryEstimatorSpec extends Specification {
 	  prod1 -> List("foo", "the", "bar", "the", "foo", "biz"),
 	  prod2 -> List("salut")
 	)
-	val dictionary = Set("foo", "the", "bar", "biz")
+	val dictionary = Set("foo", "the", "bar", "biz", "salut")
 	def wordListGivenCategoryEstimator(categoryWords:List[String], dictionary:Set[String]) = 
 	  new ConcreteWordListGivenCategoryEstimator(categoryWords, dictionary, 1)
 	def priorCategoryProbability(product:Product):Double = 0.5
       }
 
-      val listing1 = Listing("lollipop the", "", "MCE", "2.55")
+      val listing1 = Listing("the biz", "", "MCE", "2.55")
       val estimates:List[CategoryEstimate[Product]] = estimator estimate listing1
-      estimates(0).estimate must_==(0.5 * (1d /(6 + 4))*(3d /(6 + 4)))
-      estimates(1).estimate must_==(0.5 * (1d /(1 + 4))*(1d /(1 + 4)))
+      estimates(0).estimate must_==(0.5 * (2d /(6 + 5))*(3d /(6 + 5)))
+      estimates(1).estimate must_==(0.5 * (1d /(1 + 5))*(1d /(1 + 5)))
+
+    }
+    "filter out words not in the dictionary " in {
+      val prod1 = Product("FOO_Bar_Biz", "foo the",Some("bar the foo"), "biz", "")
+      val prod2 = Product("salut!", "salut", None, "","")
+
+      val estimator = new MessageCategoryListEstimator[Listing,Product] { 
+	val messageTokenizer = Tokenizer
+	val K = 1 
+	val categoriesToWords = Map(
+	  prod1 -> List("foo", "the", "bar", "the", "foo", "biz"),
+	  prod2 -> List("salut")
+	)
+	val dictionary = Set("foo", "the", "bar", "biz", "salut")
+	def wordListGivenCategoryEstimator(categoryWords:List[String], dictionary:Set[String]) = 
+	  new ConcreteWordListGivenCategoryEstimator(categoryWords, dictionary, 1)
+	def priorCategoryProbability(product:Product):Double = 0.5
+      }
+
+      val listing1 = Listing("the lollipop biz", "", "MCE", "2.55")
+      val estimates:List[CategoryEstimate[Product]] = estimator estimate listing1
+      estimates(0).estimate must_==(0.5 * (2d /(6 + 5))*(3d /(6 + 5)))
+      estimates(1).estimate must_==(0.5 * (1d /(1 + 5))*(1d /(1 + 5)))
 
     }
   }

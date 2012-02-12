@@ -57,7 +57,7 @@ trait MessageCategoryListEstimator[M <:Message,C <: Category] {
   def messageTokenizer:MessageTokenizer[M]
 
   def estimate(message:M):List[CategoryEstimate[C]] = {
-    val messageWords = messageTokenizer.extractFromMessage(message)
+    val messageWords = messageTokenizer.extractFromMessage(message).filter(dictionary contains _)
 
     categoriesToWords.map(catAndWords => {
       val categoryProbability = priorCategoryProbability(catAndWords._1)
