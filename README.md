@@ -3,7 +3,8 @@
 A implementation to solve the coding challenge posted by [Sortable](http://sortable.com/blog/coding-challenge/). It's made with funzies and little giggles! oh.... and Scala :)
 
 ## How to run it
-*Note: I recomended to run this on a machine with quite a bit of ram since it forks of a JVM with -Xmx2G as an argument, also the more cores the better :)*  
+*Note: I recomended running this on a machine with quite a bit of ram since it forks of a JVM with -Xmx2G as an argument, also the more cores the better :)*  
+
  1. Clone the repo (or download and extract it). 
  2. go into project dir
  3. type: `chmod u+x ./sbt`
