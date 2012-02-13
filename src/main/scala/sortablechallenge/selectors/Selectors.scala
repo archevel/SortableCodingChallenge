@@ -40,7 +40,7 @@ trait LikeliestCategoryFinder[C <: Category] {
 
 abstract class ResultSelector(products:List[Product], thresholdVal:Double) extends LikeliestCategoryFinder[Product] {
   val threshold = CategoryEstimate(Product("THRESHOLD","THRESHOLD",None,"THRESHOLD","THRESHOLD"), thresholdVal)
-  var all = List[(Message, CategoryEstimate[Product])]()
+ 
 
   private val initialResult:Map[String,List[Listing]] =
     products.map(x => (x.product_name, Nil)).toMap
@@ -65,7 +65,7 @@ abstract class ResultSelector(products:List[Product], thresholdVal:Double) exten
 	case None => acc
 	case Some(l) => {
 	  val prod = l.category
-	  all = (mgc.message, l):: all 
+
 	  acc.get(prod.product_name) match {
 	    case None => acc + ((prod.product_name, mgc.message::Nil))
 	    case Some(list) => acc + ((prod.product_name, mgc.message::list))
@@ -76,11 +76,7 @@ abstract class ResultSelector(products:List[Product], thresholdVal:Double) exten
       case (name, listings) => Result(name, listings)
     } toList    
 
-    if(all != Nil) {
-      println("avg: " + all.foldLeft(0d)((acc,e) => acc + e._2.estimate) / all.size)
-      println("min: " + all.minBy(_._2.estimate))
-      println("max: " + all.maxBy(_._2.estimate))
-    }
+
     result
   }
   
