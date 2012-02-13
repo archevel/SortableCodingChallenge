@@ -44,9 +44,20 @@ class TokenizerSpec extends Specification {
     "from a list of Listings extract a List[String] with all words in title and manufacturer" in {
       val dirty = Listing("A Foo BaR of tHe aweSOME BIZ_model", "FOO", "MICE", "2.5")
       val clean = Listing("a foo bar of the awesome biz model","foo","MICE","2.5")
+      val dictionary = Set("a", "foo", "bar", "of", "the", "awesome", "biz","model", "A", "Foo", "BaR", "of", "tHe", "aweSOME", "BIZ_model", "FOO")
       val listings = List(dirty, clean)
-      val words = Tokenizer.extractFromMessages(listings)
+      val words = Tokenizer.extractFromMessages(listings, dictionary)
       words.size must be equalTo(17)
+    }
+    "when extracting words from a listing filter those words not in the dictionary" in {
+            val dirty = Listing("A Foo BaR of tHe aweSOME BIZ_model", "FOO", "MICE", "2.5")
+      val clean = Listing("a foo bar of the awesome biz model","foo","MICE","2.5")
+      val dictionary = Set( "awesome", "FOO")
+      val listings = List(dirty, clean)
+      val words = Tokenizer.extractFromMessages(listings, dictionary)
+      words.size must be equalTo(2)
+
+
     }
 
   }

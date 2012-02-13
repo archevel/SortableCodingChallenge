@@ -35,13 +35,13 @@ trait CategoryTokenizer[C<:Category] {
 }
 
 trait MessageTokenizer[M<:Message] {
-  def extractFromMessages(messages:List[M]):List[String] = {
+  def extractFromMessages(messages:List[M],dictionary:Set[String]):List[String] = {
     messages.flatMap(m => {
-      extractFromMessage(m)
+      extractFromMessage(m, dictionary)
     })
   }
   
-  def extractFromMessage(message:M):List[String]
+  def extractFromMessage(message:M,dictionary:Set[String]):List[String]
 }
 
 
@@ -57,11 +57,11 @@ object Tokenizer extends CategoryTokenizer[Product] with MessageTokenizer[Listin
   }
   
 
-  def extractFromMessage(message:Listing):List[String] = message match {
+  def extractFromMessage(message:Listing, dictionary:Set[String]):List[String] = message match {
     case Listing(t, m, _,_) => {
       val tList = t.split(" ").filter(_ != "")
       val mList = m.split(" ").filter(_ != "")
-      (tList ++ mList).toList
+      (tList ++ mList).toList.filter(dictionary.contains _)
      
     }
   }
