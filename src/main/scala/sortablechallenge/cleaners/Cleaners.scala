@@ -26,9 +26,30 @@ trait Cleaner[T] {
 }
 
 trait StringCleaner {
-  val numberSeparation = """(\d+[\.]{0,1}\d+)""".r
+  
+  val DASH_REPLACER = """([a-z]{0,1})([\-_]{0,1})(\d+[\.]{0,1}\d*)([\-_]{0,1})([a-z]{0,1})""".r
+  val CAMEL_CASE_SEPARATOR = """([a-z]+[a-z])([A-Z][A-Za-z]+)""".r
+  val DASH_BETWEEN_LETTERS_REPLACER = """([a-z])([\-_])([a-z])""".r
   def clean(dirty:String):String = {
-    numberSeparation.replaceAllIn(dirty.toUpperCase.toLowerCase, x => " " + x.toString + " ").replace(".", "dot").replaceAll("[^a-z0-9]", " ")
+    val uncameled = CAMEL_CASE_SEPARATOR.replaceAllIn(dirty, x => x.group(1) + " " + x.group(2))
+    val lowered = uncameled.toLowerCase
+    val numberDashed = DASH_REPLACER.replaceAllIn(lowered, x => { 
+      val l1 =  x.subgroups(0)
+      val d1 =  x.subgroups(1)
+      val num = x.subgroups(2)
+      val d2 =  x.subgroups(3)
+      val l2 =  x.subgroups(4)
+      
+      val start = if(l1 != "" || d1 != "") l1 + "DASH" else ""
+      val end = if(l2 != "" || d2 != "") "DASH" + l2 else ""
+
+      start + num + end
+    })
+    val dashed = DASH_BETWEEN_LETTERS_REPLACER.replaceAllIn(numberDashed, x => x.group(1) + "DASH" + x.group(3))
+    val dotted = dashed.replace(".","DOT")
+    
+    val noNonWordChars = dotted.replaceAll("[^A-Za-z0-9]", " ")
+    noNonWordChars
   }
 
 }

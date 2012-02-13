@@ -39,10 +39,10 @@ trait CategoryGivenMessageEstimator[M <:Message,C <: Category] extends {
     val totalProbability = messageGivenCatEstimates.foldLeft(0d)((acc, catAndProb) => {
       catAndProb.estimate + acc
     })
-
-    val estimates = messageGivenCatEstimates.map(catAndProb => {
-      CategoryEstimate(catAndProb.category, catAndProb.estimate / totalProbability)
-    })
+    val estimates = if(totalProbability > 0d)
+      messageGivenCatEstimates.map(catAndProb => {
+	CategoryEstimate(catAndProb.category, catAndProb.estimate / totalProbability)
+      }) else messageGivenCatEstimates
 
     MessageGivenCategories(dirtyMessage, estimates)
   }

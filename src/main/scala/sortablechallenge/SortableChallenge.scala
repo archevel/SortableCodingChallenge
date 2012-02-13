@@ -60,18 +60,13 @@ object  SortableChallenge {
     println("Done!")
 
     println("Selecting probable product for listings (with threshold: " + threshold + ")...")
-    val selector = new ResultSelector(cleanProds,threshold)
+    val selector = new ConcreteResultSelector(cleanProds,threshold)
     val results = selector.mapToResults(allEstimates)
     println("Done!")
 
     println("High recall low precision selection (with threshold: 0)...")
-    val highRecallSelector = new ResultSelector(cleanProds,0)
+    val highRecallSelector = new ConcreteResultSelector(cleanProds,0)
     val highRecallResults = highRecallSelector.mapToResults(allEstimates)
-    println("Done!")
-
-    println("Low recall high precision selection (with threshold: 0.02)...")
-    val highPrecisionSelector = new ResultSelector(cleanProds,0.02)
-    val highPrecisionResults = highPrecisionSelector.mapToResults(allEstimates)
     println("Done!")
 
     println("Writing the results to 'result_with_threshold_"+threshold+".txt'...")
@@ -84,15 +79,10 @@ object  SortableChallenge {
     highRecallWriter.write(highRecallResults)
     println("Done!")
 
-    println("Writing the results to 'highPrecision_with_threshold_0.02.txt'...")
-    val highPrecisionWriter = new OutputWriter("highPrecision_with_threshold_0.02.txt")
-    highPrecisionWriter.write(highPrecisionResults)
-    println("Done!")
-
   }
 
   private def getThreshold(args:Array[String]) = {
-    val default = 0.0111d
+    val default = 0.0114d
     if(args.size == 1) {
       try {
 	args(0) toDouble

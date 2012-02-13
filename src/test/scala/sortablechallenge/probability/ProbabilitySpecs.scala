@@ -83,7 +83,7 @@ class CategoryGivenMessageEstimatorSpec extends Specification {
 	def priorCategoryProbability(category:Product):Double = 0.5 
       } 
       val listing1 = Listing("agro boat lalala      booo","boat","fasdf angeredgod","ONE MILLION DOLLARS!")
-      val listing2 = Listing("Agro_boat LalAla #__¤ booo","BoAt","fasdf&&&!_AnGerEdGOD","ONE MILLION DOLLARS!")
+      val listing2 = Listing("Agro!boat LalAla #__¤ booo","BoAt","fasdf&&&!_AnGerEdGOD","ONE MILLION DOLLARS!")
       val listings = List (
 	listing1, listing2
       )
